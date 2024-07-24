@@ -49,7 +49,8 @@ namespace BulkyWeb.DbInitilizer
                     StreetAddress = "12940 NW 9th Lane",
                     State = "Fl",
                     PostalCode = "33182",
-                    City = "Miami"
+                    City = "Miami",
+                    EmailConfirmed = true,
                 }, "Neyda*89").GetAwaiter().GetResult();
 
                 ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "davidenrescobedo86@gmail.com");
