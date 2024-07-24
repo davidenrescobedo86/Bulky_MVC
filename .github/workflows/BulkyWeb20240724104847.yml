@@ -1,13 +1,13 @@
-name: Build and deploy .NET Core application to Web App BulkyWeb20240724093805
+name: Build and deploy .NET Core application to Web App BulkyWeb20240724104847
 on:
   push:
     branches:
     - master
 env:
-  AZURE_WEBAPP_NAME: BulkyWeb20240724093805
+  AZURE_WEBAPP_NAME: BulkyWeb20240724104847
   AZURE_WEBAPP_PACKAGE_PATH: BulkyWeb\published
   CONFIGURATION: Release
-  DOTNET_CORE_VERSION: 7.0.x
+  DOTNET_CORE_VERSION: 8.0.x
   WORKING_DIRECTORY: BulkyWeb
 jobs:
   build:
@@ -21,11 +21,11 @@ jobs:
     - name: Restore
       run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
     - name: Build
-      run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} 
+      run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
     - name: Test
-      run: dotnet test "${{ env.WORKING_DIRECTORY }}"
+      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --no-build
     - name: Publish
-      run: dotnet publish "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+      run: dotnet publish "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
     - name: Publish Artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -44,5 +44,5 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        publish-profile: ${{ secrets.BulkyWeb20240724093805_D63B }}
+        publish-profile: ${{ secrets.BulkyWeb20240724104847_DFF7 }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
